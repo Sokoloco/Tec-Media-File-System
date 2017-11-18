@@ -52,6 +52,10 @@ int Processing::SaveImage(cv::Mat img, int i)
     return 0;
 }
 
+
+
+
+
 int Processing::ShowVideo() {
     cv::VideoCapture cap("/home/melany/CLionProjects/SampleVideo.avi"); // open the video file for reading
 
@@ -128,8 +132,6 @@ int Processing::CreateVideo() {
         cv::Mat frame;
 
 
-        //cout << frame.ones(frameSize, frame.type()) << endl;
-
         bool bSuccess = cap.read(frame); // read a new frame from video
 
         if (!bSuccess) //if not success, break loop
@@ -157,6 +159,38 @@ int Processing::readBinaryimage() {
     std::ifstream file;
     file.open("/home/melany/CLionProjects/Frames/TestImage1.jpg", std::ios::in|std::ios::binary);
     
+    return 0;
+}
+
+int Processing::ShowImage()
+{
+    cv::namedWindow("MyWindow", CV_WINDOW_AUTOSIZE); //create a window with the name "MyWindow"
+
+    for (int i = 0;;i++) {
+        cv::String num = std::to_string(i);
+
+        std::cout << i << std::endl;
+
+        cv::Mat frame = cv::imread("/home/melany/CLionProjects/Frames/TestImage"+ num +".jpg", CV_LOAD_IMAGE_UNCHANGED); //read the image data in the file "MyPic.JPG" and store it in 'img'
+
+
+        if (frame.empty()) //check whether the image is loaded or not
+        {
+            std::cout << "Error : Image cannot be loaded..!!" << std::endl;
+            system("pause"); //wait for a key press
+            break;
+        }
+
+        imshow("MyVideo", frame); //show the frame in "MyVideo" window
+
+        if(cv::waitKey(40) == 27) //wait for 'esc' key press for 30 ms. If 'esc' key is pressed, break loop
+        {
+            std::cout << "esc key is pressed by user" << std::endl;
+            break;
+        }
+    }
+
+
     return 0;
 }
 

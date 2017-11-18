@@ -8,7 +8,7 @@
 #include <iostream>
 #include <fstream>
 #include <sys/stat.h>
-
+#include <unistd.h>
 
 class Processing {
 
@@ -17,9 +17,13 @@ public:
 
     int ShowVideo();
 
+    int ShowImage();
+
     int CreateVideo();
 
     int readBinaryimage();
+
+
 };
 
 

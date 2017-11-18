@@ -10,7 +10,8 @@ int main(int argc, char* argv[])
 {
     Processing Pro;
     //Pro.ShowVideo();
-    Pro.CreateVideo();
+    //Pro.CreateVideo();
+    Pro.ShowImage();
 }
 
 //Mostrar imagen
