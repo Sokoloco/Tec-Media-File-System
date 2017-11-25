@@ -3,7 +3,7 @@ project(Tec_Media_File_System)
 
 set(CMAKE_CXX_STANDARD 11)
 
-set(SOURCE_FILES main.cpp ImageProcessing/Processing.cpp ImageProcessing/Processing.h)
+set(SOURCE_FILES main.cpp ImageProcessing/Processing.cpp ImageProcessing/Processing.h Server/ControllerNode.cpp)
 find_package( OpenCV REQUIRED )
-add_executable(Tec_Media_File_System ${SOURCE_FILES})
+add_executable(Tec_Media_File_System ${SOURCE_FILES} Server/ControllerNode.cpp)
 target_link_libraries( Tec_Media_File_System ${OpenCV_LIBS} )
