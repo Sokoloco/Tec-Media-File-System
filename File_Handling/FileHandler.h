@@ -18,7 +18,9 @@ public:
 
     void createFile(std::vector<char> vect);
 
-    char *bitToChar(int *bits, unsigned long sizeBits);
+    void bitToChar(int *bits, unsigned long sizeBits, char *ans);
+
+    void makeParity(int clients, int *img, unsigned long totsize);
 };
 
 #endif //TEC_MEDIA_FILE_SYSTEM_FILEHANDLER_H

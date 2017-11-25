@@ -25,12 +25,11 @@ int main(int argc, char* argv[]) {
 //    }
     //bits to bytes
     FileHandler file;
-    std::vector<char> vect = file.ReadAllBytes("/home/luis/Desktop/1.jpeg");
+    std::vector<char> vect = file.ReadAllBytes("/home/luis/Downloads/test.jpg");
     int test[vect.size()*8] ={0};
     file.charToBit(vect,test);
-    std::cout<<sizeof(bool)<<std::endl;
-    char* bytes;
-    bytes = file.bitToChar(test,vect.size()*8);
+    char bytes[vect.size()] = {0};
+    file.bitToChar(test,vect.size()*8,bytes);
     for(int i = 0; i< vect.size();i++){
         std::cout<<*(bytes+i);
     }

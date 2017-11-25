@@ -17,6 +17,9 @@ std::vector<char> FileHandler::ReadAllBytes(char const* filename) {
     ifs.read(&result[0], pos);
     ifs.close();
 
+    for (std::vector<char>::const_iterator i = result.begin(); i != result.end(); ++i)
+        std::cout << *i;
+
     return result;
 }
 
@@ -30,15 +33,13 @@ void FileHandler::charToBit(std::vector<char> vect,int* ans){
     }
 }
 
-char* FileHandler::bitToChar(int* bits, unsigned long sizeBits){
-    char ans[sizeBits/8] = {0};
-    int k = 0;
+void FileHandler::bitToChar(int* bits, unsigned long sizeBits, char* ans){
+    int *change = bits;
     for(int i = 0;i<sizeBits/8;i++){
-        for(int j =7;j != -1;j--){
-            ans[i] |= *(bits+k) <<j;
+        for(int j =0;j != 8;j++){
+            ans[i] |= *(change++) << j;
         }
     }
-    return ans;
 }
 
 void FileHandler::createFile(std::vector<char> vect) {
@@ -50,4 +51,16 @@ void FileHandler::createFile(std::vector<char> vect) {
         ofs << *i;
     ofs.close();
 
+}
+
+void FileHandler::makeParity(int clients, int* img, unsigned long totsize){
+    unsigned long len = totsize/(clients-1);
+    int parBit;
+    for(int i = 0;i<len;i++){
+        parBit=0;
+        for(int j=0;j<clients-1;j++){
+            parBit+=img[i+len*j];
+        }
+
+    }
 }
