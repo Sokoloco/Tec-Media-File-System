@@ -1,11 +1,8 @@
 //
 // Created by luis on 23/11/17.
-//https://codereview.stackexchange.com/questions/22901/reading-all-bytes-from-a-file
+// https://codereview.stackexchange.com/questions/22901/reading-all-bytes-from-a-file
 //
-
-
 #include "FileHandler.h"
-
 
 std::vector<char> FileHandler::ReadAllBytes(char const* filename) {
     std::ifstream ifs(filename, std::ios::binary | std::ios::ate);
@@ -43,17 +40,15 @@ void FileHandler::bitToChar(int* bits, unsigned long sizeBits, char* ans){
 }
 
 void FileHandler::createFile(std::vector<char> vect) {
-
     std::vector<char> i;
     i.begin() = vect.begin();
     std::ofstream ofs("test.jpeg", std::ofstream::out);
     for (std::vector<char>::const_iterator i = vect.begin(); i != vect.end(); ++i)
         ofs << *i;
     ofs.close();
-
 }
 
-void FileHandler::makeParity(int clients, int* img, unsigned long totsize){
+void FileHandler::makeParity(int clients, int* img, unsigned long totsize,int* parity){
     unsigned long len = totsize/(clients-1);
     int parBit;
     for(int i = 0;i<len;i++){
@@ -61,6 +56,9 @@ void FileHandler::makeParity(int clients, int* img, unsigned long totsize){
         for(int j=0;j<clients-1;j++){
             parBit+=img[i+len*j];
         }
-
+        if(parBit%2==0)
+            parity[i] =0;
+        else
+            parity [i] =1;
     }
 }

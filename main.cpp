@@ -24,15 +24,29 @@ int main(int argc, char* argv[]) {
 //        std::cout<<test[i]<<std::endl;
 //    }
     //bits to bytes
+//    FileHandler file;
+//    std::vector<char> vect = file.ReadAllBytes("/home/luis/Downloads/test.jpg");
+//    int test[vect.size()*8] ={0};
+//    file.charToBit(vect,test);
+//    char bytes[vect.size()] = {0};
+//    file.bitToChar(test,vect.size()*8,bytes);
+//    for(int i = 0; i< vect.size();i++){
+//        std::cout<<*(bytes+i);
+//    }
+    //Parity Test
     FileHandler file;
     std::vector<char> vect = file.ReadAllBytes("/home/luis/Downloads/test.jpg");
     int test[vect.size()*8] ={0};
     file.charToBit(vect,test);
-    char bytes[vect.size()] = {0};
-    file.bitToChar(test,vect.size()*8,bytes);
-    for(int i = 0; i< vect.size();i++){
-        std::cout<<*(bytes+i);
-    }
+    int partest[vect.size()/3];
+    file.makeParity(3,test,vect.size()*8,partest);
+    for(int i = 0;i<vect.size()/3;i++)std::cout<<*partest;
+//    char bytes[vect.size()] = {0};
+//    file.bitToChar(test,vect.size()*8,bytes);
+//    for(int i = 0; i< vect.size();i++){
+//        std::cout<<*(bytes+i);
+//    }
+
     //Processing Pro;
     //Pro.ShowVideo();
     //Pro.CreateVideo();
