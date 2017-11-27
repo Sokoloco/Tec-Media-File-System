@@ -13,7 +13,6 @@
 int Processing::SaveImage(cv::Mat img, int i)
 {
     //Mat img = imread("/home/melany/CLionProjects/MyPic.jpg", CV_LOAD_IMAGE_UNCHANGED);
-
     //Mat img(650, 600, CV_16UC3, Scalar(0,50000, 50000)); //create an image ( 3 channels, 16 bit image depth, 650 high, 600 wide, (0, 50000, 50000) assigned for Blue, Green and Red plane respectively. )
 
     if (img.empty()) //check whether the image is loaded or not

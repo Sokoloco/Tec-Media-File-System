@@ -1,16 +1,55 @@
 
 #include "ImageProcessing/Processing.h"
+#include "File_Handling/FileHandler.h"
 
 
-using namespace cv;
-using namespace std;
 
+int main(int argc, char* argv[]) {
 
-int main(int argc, char* argv[])
-{
-    Processing Pro;
+//    int N = 1;
+//    char ok = ' ';
+//    ok |= 0 << N;
+//    std::cout<< ok <<std::endl;
+    //Creating file
+//    FileHandler file;
+//    std::vector<char> vect = file.ReadAllBytes("/home/luis/Desktop/1.jpeg");
+//    file.createFile(vect);
+    //bytes to bits
+//    FileHandler file;
+//    std::vector<char> vect = file.ReadAllBytes("/home/luis/Desktop/1.jpeg");
+//    int test[vect.size()*8] ={0};
+//    file.charToBit(vect,test);
+//    std::cout<<sizeof(bool)<<std::endl;
+//    for(int i = 0; i<vect.size()*8;i++){
+//        std::cout<<test[i]<<std::endl;
+//    }
+    //bits to bytes
+//    FileHandler file;
+//    std::vector<char> vect = file.ReadAllBytes("/home/luis/Downloads/test.jpg");
+//    int test[vect.size()*8] ={0};
+//    file.charToBit(vect,test);
+//    char bytes[vect.size()] = {0};
+//    file.bitToChar(test,vect.size()*8,bytes);
+//    for(int i = 0; i< vect.size();i++){
+//        std::cout<<*(bytes+i);
+//    }
+    //Parity Test
+    FileHandler file;
+    std::vector<char> vect = file.ReadAllBytes("/home/luis/Downloads/test.jpg");
+    int test[vect.size()*8] ={0};
+    file.charToBit(vect,test);
+    int partest[vect.size()/3];
+    file.makeParity(3,test,vect.size()*8,partest);
+    for(int i = 0;i<vect.size()/3;i++)std::cout<<*partest;
+//    char bytes[vect.size()] = {0};
+//    file.bitToChar(test,vect.size()*8,bytes);
+//    for(int i = 0; i< vect.size();i++){
+//        std::cout<<*(bytes+i);
+//    }
+
+    //Processing Pro;
     //Pro.ShowVideo();
-    Pro.CreateVideo();
+    //Pro.CreateVideo();
 }
 
 //Mostrar imagen
@@ -136,6 +175,3 @@ int main( int argc, const char** argv )
 
     return 0;
 }**/
-
-
-
