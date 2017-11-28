@@ -44,10 +44,11 @@ int main() {
 #include "../File_Handling/FileHandler.cpp"
 #include "../ImageProcessing/Processing.cpp"
 #include "../Cliente/cliente.h"
-
+#include <ostream>
+#include <string>
 
 Processing processing1;
-//FileHandler file;
+FileHandler fileHandler;
 cliente cliente1;
 
 int FrameDir(std::string Carpeta);
@@ -93,6 +94,7 @@ void explorer2(const char* directory) {
         std::cout << "Directory was not found" << std::endl;
     }
     //read
+    cliente1.conectar();
     while ((entry = readdir(dir)) != NULL) {
         if (entry->d_name[0] != '.') {
             std::string path = std::string(directory) + "/" + std::string(entry->d_name);
@@ -103,9 +105,15 @@ void explorer2(const char* directory) {
                 std::string num = std::to_string(i);
                 std::string dir = path + "/" + std::string(entry->d_name) + num + ".jpg";
                 stop = std::ifstream (dir).good;
-
+                std::vector<char> vect = fileHandler.ReadAllBytes(dir);
+                std::ostringstream ostringstream;
+                for (int a=0;a<vect.size();a++){
+                    ostringstream << vect.at(a);
+                }
+                cliente1.sendM((char*)(ostringstream.str().c_str()));
             }
-            FrameDir(entry->d_name);
+
+
             stat(path.c_str(), &info);
             if (S_ISDIR(info.st_mode)) {
                 explorer(path.c_str());
@@ -114,17 +122,6 @@ void explorer2(const char* directory) {
     }
     //close
     closedir(dir);
-}
-
-int FrameDir(std::string Carpeta){
-    explorer2("./Frames");
-    bool stop=true;
-    for (int i=0; stop ;i++){
-        std::string num = std::to_string(i);
-        std::string dir = "./Frames/"+ Carpeta +"/" + Carpeta + num +".jpg";
-        stop = ".";
-    }
-
 }
 
 int main() {
@@ -144,9 +141,6 @@ int main() {
     std::cout << dir << std::endl;
     explorer(dir);
 
-
-
-    //std::vector<char> x;
 
     return 0;
 }
