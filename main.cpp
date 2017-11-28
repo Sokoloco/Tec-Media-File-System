@@ -8,10 +8,18 @@ using namespace std;
 
 int main(int argc, char* argv[])
 {
-    Processing Pro;
+    /**Processing Pro;
     //Pro.ShowVideo();
     //Pro.CreateVideo();
-    Pro.ShowImage();
+    Pro.ShowImage();**/
+
+    std::ofstream ofs ("test.jpeg", std::ofstream::out);
+
+    ofs << "lorem ipsum";
+
+    ofs.close();
+
+    return 0;
 }
 
 //Mostrar imagen
@@ -137,6 +145,53 @@ int main( int argc, const char** argv )
 
     return 0;
 }**/
+
+/**
+#include <iostream>
+#include <opencv2/opencv.hpp>
+
+int main (int argc, char **argv)
+{
+
+    if (argc != 2)
+    {
+        std::cout << "USE: " << argv[0] << " <file_path>" << std::endl;
+        return 1;
+    }
+
+    //Our color image
+    //Mat img = imread("/home/melany/CLionProjects/MyPic.jpg", CV_LOAD_IMAGE_UNCHANGED);
+
+    cv::Mat imageMat = cv::imread("/home/melany/CLionProjects/MyPic.jpg", CV_LOAD_IMAGE_COLOR);
+    if (imageMat.empty())
+    {
+        std::cerr << "ERROR: Could not read image " << "/home/melany/CLionProjects/MyPic.jpg" << std::endl;
+        return 1;
+    }
+
+    //Grayscale matrix
+    cv::Mat grayscaleMat (imageMat.size(), CV_8U);
+
+    //Convert BGR to Gray
+    cv::cvtColor( imageMat, grayscaleMat, CV_BGR2GRAY );
+
+    //Binary image
+    cv::Mat binaryMat(grayscaleMat.size(), grayscaleMat.type());
+
+    //Apply thresholding
+    cv::threshold(grayscaleMat, binaryMat, 100, 255, cv::THRESH_BINARY);
+
+    //Show the results
+    cv::namedWindow("Output", cv::WINDOW_AUTOSIZE);
+    cv::imshow("Output", binaryMat);
+
+    cv::waitKey(0);
+
+    return 0;
+}**/
+
+
+
 
 
 

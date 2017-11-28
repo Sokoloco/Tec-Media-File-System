@@ -7,61 +7,52 @@
 //using namespace cv;
 //using namespace std;
 
-//TODO Frames as video
 
-int Processing::SaveImage(cv::Mat img, int i)
+int Processing::SaveImage(cv::Mat img, int i,std::string name)
 {
-    //Mat img = imread("/home/melany/CLionProjects/MyPic.jpg", CV_LOAD_IMAGE_UNCHANGED);
-
-    //Mat img(650, 600, CV_16UC3, Scalar(0,50000, 50000)); //create an image ( 3 channels, 16 bit image depth, 650 high, 600 wide, (0, 50000, 50000) assigned for Blue, Green and Red plane respectively. )
-
+    FileHandler fileHandler;
     if (img.empty()) //check whether the image is loaded or not
     {
         std::cout << "ERROR : Image cannot be loaded..!!" << std::endl;
-        //system("pause"); //wait for a key press
         return -1;
     }
 
     std::vector<int> compression_params; //vector that stores the compression parameters of the image
-
-    compression_params.push_back(CV_IMWRITE_JPEG_QUALITY); //specify the compression technique
-
-    //compression_params.push_back(CV_IMWRITE_PNG_STRATEGY_HUFFMAN_ONLY);
-
-
     compression_params.push_back(98); //specify the compression quality
 
+    struct stat st = {0};
+    std::string num = std::to_string(i);
+    std::ostringstream os;
+    os << "./Frames/" <<name.substr(0, name.length()-4);
+    //std::cout << os.str() << std::endl;
 
-    cv::String num = std::to_string(i);
-    bool bSuccess = imwrite("/home/melany/CLionProjects/Frames/TestImage"+ num +".jpg", img, compression_params); //write the image to file
+    mkdir(os.str().c_str(), 0777);
 
+    os <<  "/" << name.substr(0, name.length()-4);
 
+    bool bSuccess = imwrite(os.str() + num +".jpg", img, compression_params); //write the image to file
+
+    std::vector<char> vect = fileHandler.ReadAllBytes(os.str() + num +".jpg");
 
     if ( !bSuccess )
-
     {
-
         std::cout << "ERROR : Failed to save the image" << std::endl;
-
-        //system("pause"); //wait for a key press
-
     }
 
-
-
+    std::ostringstream chars;
+    for (int i=0;i>vect.size();i++){
+        chars << vect.at(i);
+    }
+    //std::cout << chars.str() << std::endl;
     return 0;
 }
 
-
-
-
-
-int Processing::ShowVideo() {
-    cv::VideoCapture cap("/home/melany/CLionProjects/SampleVideo.avi"); // open the video file for reading
+int Processing::ShowVideo(std::string dir,std::string name) {
+    cv::VideoCapture cap(dir); // open the video file for reading
 
     if ( !cap.isOpened() )  // if not success, exit program
     {
-        std::cout << "Cannot open the video file" << std::endl;
+        std::cout << "Charged Video" << std::endl;
         return -1;
     }
 
@@ -69,9 +60,21 @@ int Processing::ShowVideo() {
 
     double fps = cap.get(CV_CAP_PROP_FPS); //get the frames per seconds of the video
 
-    std::cout << "Frame per seconds : " << fps << std::endl;
+    std::cout << "Frames per seconds : " << fps << std::endl;
 
-    cv::namedWindow("MyVideo",CV_WINDOW_AUTOSIZE); //create a window called "MyVideo"
+    //cv::namedWindow("MyVideo",CV_WINDOW_AUTOSIZE); //create a window called "MyVideo"
+
+    //
+    struct stat st = {0};
+    std::ostringstream os;
+    os << "./Frames";
+    std::cout <<"Route: " << os.str() << std::endl;
+
+    if (stat(os.str().c_str(), &st) == -1) {
+        mkdir(os.str().c_str(), 0777);
+    }else {
+        std::cout << "The directory exist" << std::endl;
+    }
 
 
     for (int i = 0;;i++)
@@ -86,14 +89,17 @@ int Processing::ShowVideo() {
             break;
         }
 
-        SaveImage(frame, i);
-        imshow("MyVideo", frame); //show the frame in "MyVideo" window
+        SaveImage(frame, i,name);
 
-        if(cv::waitKey(30) == 27) //wait for 'esc' key press for 30 ms. If 'esc' key is pressed, break loop
-        {
-            std::cout << "esc key is pressed by user" << std::endl;
-            break;
-        }
+
+
+        //imshow("MyVideo", frame); //show the frame in "MyVideo" window
+
+        //if(cv::waitKey(30) == 27) //wait for 'esc' key press for 30 ms. If 'esc' key is pressed, break loop
+        //{
+        //    std::cout << "esc key is pressed by user" << std::endl;
+        //    break;
+        //}
     }
 
     return 0;
@@ -117,7 +123,7 @@ int Processing::CreateVideo() {
 
     cv::Size frameSize(static_cast<int>(dWidth), static_cast<int>(dHeight));
 
-    cv::VideoWriter oVideoWriter ("/home/melany/CLionProjects/MyVideo.avi", CV_FOURCC('P','I','M','1'), 20, frameSize, true); //initialize the VideoWriter object
+    cv::VideoWriter oVideoWriter ("../MyVideo.avi", CV_FOURCC('P','I','M','1'), 20, frameSize, true); //initialize the VideoWriter object
 
     if ( !oVideoWriter.isOpened() ) //if not initialize the VideoWriter successfully, exit the program
     {
@@ -140,7 +146,7 @@ int Processing::CreateVideo() {
             break;
         }
 
-        SaveImage(frame, i);
+        SaveImage(frame, i,"test");
         oVideoWriter.write(frame); //writer the frame into the file
 
         imshow("MyVideo", frame); //show the frame in "MyVideo" window
@@ -155,12 +161,6 @@ int Processing::CreateVideo() {
     return 0;
 }
 
-int Processing::readBinaryimage() {
-    std::ifstream file;
-    file.open("/home/melany/CLionProjects/Frames/TestImage1.jpg", std::ios::in|std::ios::binary);
-    
-    return 0;
-}
 
 int Processing::ShowImage()
 {
@@ -173,7 +173,6 @@ int Processing::ShowImage()
 
         cv::Mat frame = cv::imread("/home/melany/CLionProjects/Frames/TestImage"+ num +".jpg", CV_LOAD_IMAGE_UNCHANGED); //read the image data in the file "MyPic.JPG" and store it in 'img'
 
-
         if (frame.empty()) //check whether the image is loaded or not
         {
             std::cout << "Error : Image cannot be loaded..!!" << std::endl;
@@ -183,7 +182,7 @@ int Processing::ShowImage()
 
         imshow("MyVideo", frame); //show the frame in "MyVideo" window
 
-        if(cv::waitKey(40) == 27) //wait for 'esc' key press for 30 ms. If 'esc' key is pressed, break loop
+        if(cv::waitKey(30) == 27) //wait for 'esc' key press for 30 ms. If 'esc' key is pressed, break loop
         {
             std::cout << "esc key is pressed by user" << std::endl;
             break;
@@ -193,6 +192,9 @@ int Processing::ShowImage()
 
     return 0;
 }
+
+
+
 
 
 
