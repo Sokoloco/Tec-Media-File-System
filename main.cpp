@@ -1,8 +1,5 @@
-
 #include "ImageProcessing/Processing.h"
 #include "File_Handling/FileHandler.h"
-
-
 
 int main(int argc, char* argv[]) {
 //    int N = 1;
