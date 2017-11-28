@@ -48,7 +48,7 @@ void FileHandler::createFile(std::vector<char> vect) {
     ofs.close();
 }
 
-void FileHandler::makeParity(int clients, int* img, unsigned long totsize,int* parity){
+void FileHandler::makeParity(int clients, const int* img, unsigned long totsize,int* parity){
     unsigned long len = totsize/(clients-1);
     int parBit;
     for(int i = 0;i<len;i++){
@@ -59,6 +59,28 @@ void FileHandler::makeParity(int clients, int* img, unsigned long totsize,int* p
         if(parBit%2==0)
             parity[i] =0;
         else
-            parity [i] =1;
+            parity [i]=1;
+    }
+}
+
+void FileHandler::split(int clients, const int* img, unsigned long totsize,int* parity,int clinum){
+    unsigned long len = totsize/(clients-1);
+    for(int i = 0;i<len;i++){
+        parity[i] = img[i+len*clinum];
+    }
+}
+
+void FileHandler::useParity(int clients,const int* data,unsigned long totsize,int* result,int clinum){
+    unsigned long len = totsize/(clients-1);
+    int parBit;
+    for(int i = 0;i<len;i++){
+        parBit=0;
+        for(int j=0;j<clients-1;j++){
+            parBit+=data[i+len*j];
+        }
+        if(parBit%2==0)
+            result[i] =0;
+        else
+            result[i] =1;
     }
 }

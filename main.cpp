@@ -5,7 +5,6 @@
 
 
 int main(int argc, char* argv[]) {
-
 //    int N = 1;
 //    char ok = ' ';
 //    ok |= 0 << N;
@@ -34,24 +33,31 @@ int main(int argc, char* argv[]) {
 //        std::cout<<*(bytes+i);
 //    }
     //Parity Test
-    FileHandler file;
-    std::vector<char> vect = file.ReadAllBytes("/home/luis/Downloads/test.jpg");
-    int test[vect.size()*8] ={0};
-    file.charToBit(vect,test);
-    int partest[vect.size()/3];
-    file.makeParity(3,test,vect.size()*8,partest);
-    for(int i = 0;i<vect.size()/3;i++)std::cout<<*partest;
+//    FileHandler file;
+//    std::vector<char> vect = file.ReadAllBytes("/home/luis/Downloads/test.jpg");
+//    int test[vect.size()*8] ={0};
+//    file.charToBit(vect,test);
+//    int partest[vect.size()/3];
+//    file.makeParity(3,test,vect.size()*8,partest);
+//    for(int i = 0;i<vect.size()/3;i++)std::cout<<*partest;
 //    char bytes[vect.size()] = {0};
 //    file.bitToChar(test,vect.size()*8,bytes);
 //    for(int i = 0; i< vect.size();i++){
 //        std::cout<<*(bytes+i);
 //    }
-
-    //Processing Pro;
-    //Pro.ShowVideo();
-    //Pro.CreateVideo();
+    //xor test
+    int test[24] ={0,0,1,1,1,0,1,0,0,1,0,1,0,1,0,1,0,1,0,0,1,1,1,0};
+    FileHandler file;
+    int ans[24/3] = {0};
+    file.makeParity(4,test,24,ans);
+    for(int i = 0;i<24/3;i++)
+        std::cout<<*(ans+i);
+    
 }
 
+//Processing Pro;
+//Pro.ShowVideo();
+//Pro.CreateVideo();
 //Mostrar imagen
 
 /**

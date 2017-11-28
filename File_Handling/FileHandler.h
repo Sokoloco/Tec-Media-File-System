@@ -20,7 +20,11 @@ public:
 
     void bitToChar(int *bits, unsigned long sizeBits, char *ans);
 
-    void makeParity(int clients, int *img, unsigned long totsize, int *parity);
+    void split(int clients, const int *img, unsigned long totsize, int *parity, int clinum);
+
+    void makeParity(int clients, const int *img, unsigned long totsize, int *parity);
+
+    void useParity(int clients, const int *data, unsigned long totsize, int *result, int clinum);
 };
 
 #endif //TEC_MEDIA_FILE_SYSTEM_FILEHANDLER_H
